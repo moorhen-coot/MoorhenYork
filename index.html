@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" class="stop-scrolling">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Moorhen is a molecular graphics web application based on the Coot desktop program." />
+    <script type="module" id="MathJax-script" async src="/mathjax/tex-svg.js"/></script>
+
+    <title>Moorhen</title>
+
+    <script>
+      if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
+    </script>
+
+    <script>
+      window.onload = async () => {
+
+        window.MathJax = MathJax
+        //This is a dummy render with MathJax which seems to be necessary to make sure that \color works
+        //properly with loaded sessions.
+        const input = String.raw`{\displaystyle \sum_{i}^{\infty} \Pi{\sqrt{\pi}\sqrt{\pi}}{\color{blue}Hello}}`
+        const output = document.getElementById('mathjaxout');
+        output.innerHTML = '';
+        output.style.width = "0"
+        output.style.height = "0"
+        output.style.display = "none"
+        let options = MathJax.getMetricsFor(output);
+        options.display = false
+        const node = await MathJax.tex2svgPromise(input, options)
+        if(node){
+            const svg = node.getElementsByTagName("svg")
+        }
+
+        const loadScript = (src) => {
+          return new Promise((resolve, reject) => {
+            const script = document.createElement('script')
+            script.src = src
+            script.onload = () => resolve(src)
+            script.onerror = () => reject(new Error('Failed to load script: ' + src))
+            document.head.appendChild(script)
+          })
+        }
+
+        const memory64 = WebAssembly.validate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 5, 3, 1, 4, 1]))
+
+        if (memory64) {
+          loadScript('/moorhen64.js')
+            .then(src => {
+              createCoot64Module({
+                print(t) { console.log(["output", t]) },
+                printErr(t) { console.error(["output", t]) },
+                locateFile(path, prefix) {
+                // if it's a mem init file, use a custom dir
+                if (path.endsWith(".data")) return "/" + path;
+                // otherwise, use the default, the prefix (JS file's dir) + the path
+                return prefix + path;
+              }
+              })
+              .then((returnedModule) => {
+                window.cootModule = returnedModule
+                window.CCP4Module = returnedModule
+                const cootModuleAttachedEvent = new CustomEvent("cootModuleAttached", { })
+                document.dispatchEvent(cootModuleAttachedEvent)
+                console.log(src + ' loaded 64-bit successfully.')
+              })
+              .catch((error) => {
+                console.log("There was a problem creating Coot64Module...")
+                console.error(error.message)
+                console.log("Trying 32-bit fallback")
+                loadScript('/moorhen.js')
+                  .then(src => {
+                    console.log(src + ' loaded 32-bit successfully (fallback).')
+                    createCootModule({
+                      print(t) { console.log(["output", t]) },
+                      printErr(t) { console.log(["output", t]) }
+                    })
+                    .then((returnedModule) => {
+                      window.cootModule = returnedModule;
+                      window.CCP4Module = returnedModule;
+                      const cootModuleAttachedEvent = new CustomEvent("cootModuleAttached", { })
+                      document.dispatchEvent(cootModuleAttachedEvent)
+                      console.log(src + ' loaded 32-bit successfully.')
+                    })
+                  })
+                });
+              })
+              .catch((error) => {
+              });
+        } else {
+          loadScript('/moorhen.js')
+
+            .then(src => {
+              createCootModule({
+                print(t) { console.log(["output", t]) },
+                printErr(t) { console.log(["output", t]) },
+                locateFile(path, prefix) {
+                // if it's a mem init file, use a custom dir
+                if (path.endsWith(".data")) return "/" + path;
+                // otherwise, use the default, the prefix (JS file's dir) + the path
+                return prefix + path;
+              }
+              })
+              .then((returnedModule) => {
+                window.cootModule = returnedModule
+                window.CCP4Module = returnedModule
+                const cootModuleAttachedEvent = new CustomEvent("cootModuleAttached", { })
+                document.dispatchEvent(cootModuleAttachedEvent)
+                console.log(src + ' loaded 32-bit successfully.')
+              })
+              .catch((e) => {
+                console.log(e)
+              });
+            })
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <div id="mathjaxout" style="display:none"></div>
+  </body>
+
+</html>
