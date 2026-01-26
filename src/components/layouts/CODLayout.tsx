@@ -1,24 +1,29 @@
-import { MoorhenContainer, MoorhenMolecule, MoorhenReduxStore, addMolecule } from 'moorhen'
+import { MoorhenContainer, MoorhenMolecule, addMolecule } from 'moorhen'
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { libcootApi } from "moorhen/types/libcoot"
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const CODLayout: React.FC = () => {
+type CODLayoutProps = {
+    urlPrefix?: string;
+}
+
+export const CODLayout: React.FC = (props: CODLayoutProps) => {
     const dispatch = useDispatch()
+    const store = useStore();
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
 
     const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
+    const urlPrefix = props.urlPrefix
 
     const background_colour = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
     const { codid } = useParams()
 
-    const urlPrefix = "/baby-gru"
     //const baseUrl = 'https://www.crystallography.net/cod'
     const baseUrl = '/cod'
 
@@ -59,7 +64,7 @@ export const CODLayout: React.FC = () => {
             commandArgs: [dictContent, anyMolNo],
         }, false)
 
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, baseUrl)
+        const newMolecule = new MoorhenMolecule(commandCentre, store, baseUrl)
         const result = await newMolecule.loadToCootFromString(coordContent, codid);
         console.error(result)
 

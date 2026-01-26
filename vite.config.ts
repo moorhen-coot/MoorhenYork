@@ -6,6 +6,7 @@ import topLevelAwait from "vite-plugin-top-level-await";
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
+  base: '/dev/',
   plugins: [
       react(),
       wasm(),

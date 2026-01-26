@@ -1,3 +1,4 @@
+/*
 import { MoorhenContainer, MoorhenTimeCapsule } from 'moorhen'
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -5,7 +6,11 @@ import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const GallerySessionLayout: React.FC = () => {
+type GallerySessionProps = {
+    urlPrefix?: string;
+}
+
+export const GallerySessionLayout: React.FC = (props: GallerySessionProps) => {
     const dispatch = useDispatch()
 
     const store = useStore()
@@ -23,7 +28,7 @@ export const GallerySessionLayout: React.FC = () => {
     
     const { galleryId } = useParams()
 
-    const urlPrefix = "/baby-gru"
+    const urlPrefix = props.urlPrefix
     const monomerLibraryPath = "https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master/"
     const sessionUrls: {[key: string]: string} = {
         "1": "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/sessions/gallery-1.pb",
@@ -68,3 +73,4 @@ export const GallerySessionLayout: React.FC = () => {
 
     return <MoorhenContainer {...collectedProps} />
 }
+*/

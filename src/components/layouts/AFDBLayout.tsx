@@ -1,12 +1,13 @@
-import { MoorhenContainer, MoorhenMolecule, addMolecule, MoorhenReduxStore, MoorhenColourRule, getMultiColourRuleArgs } from 'moorhen'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, ColourRule, getMultiColourRuleArgs } from 'moorhen'
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
 export const AFDBLayout: React.FC = () => {
     const dispatch = useDispatch()
+    const store = useStore();
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     const backgroundColor = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
@@ -16,11 +17,10 @@ export const AFDBLayout: React.FC = () => {
 
     const { uniprotID } = useParams()
 
-    const urlPrefix = "/baby-gru"
     const monomerLibraryPath = "https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master/"
 
     const fetchMolecule = async (url: string, molName: string) => {
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, monomerLibraryPath)
+        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
         newMolecule.setBackgroundColour(backgroundColor)
         newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
         try {
@@ -28,7 +28,7 @@ export const AFDBLayout: React.FC = () => {
             if (newMolecule.molNo === -1) {
                 throw new Error("Cannot read the fetched molecule...")
             }
-            const newColourRule = new MoorhenColourRule(
+            const newColourRule = new ColourRule(
                 'af2-plddt', "/*/*/*/*", "#ffffff", commandCentre, true
             )
             newColourRule.setLabel("PLDDT")
@@ -62,7 +62,7 @@ export const AFDBLayout: React.FC = () => {
     }, [uniprotID, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        glRef, commandCentre
     }
 
     return <MoorhenContainer {...collectedProps} />

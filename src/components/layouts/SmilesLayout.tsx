@@ -1,13 +1,18 @@
-import { MoorhenContainer, MoorhenMolecule, MoorhenReduxStore, addMolecule } from 'moorhen'
+import { MoorhenContainer, MoorhenMolecule, addMolecule } from 'moorhen'
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { libcootApi } from "moorhen/types/libcoot"
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const SmilesLayout: React.FC = () => {
+type SmilesLayoutProps = {
+    urlPrefix?: string;
+}
+
+export const SmilesLayout: React.FC = (props: SmilesLayoutProps) => {
     const dispatch = useDispatch()
+    const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
 
@@ -16,10 +21,10 @@ export const SmilesLayout: React.FC = () => {
 
     const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
+    const urlPrefix = props.urlPrefix
 
     const { smilesSearch } = useParams()
 
-    const urlPrefix = "/baby-gru"
     const baseUrl = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
 
     const loadSmiles = async (smilesSearch: string) => {
@@ -39,7 +44,7 @@ export const SmilesLayout: React.FC = () => {
         const dictContent = smiles_to_pdbResponse.data.result.result.second
 
         const anyMolNo = -999999
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, baseUrl)
+        const newMolecule = new MoorhenMolecule(commandCentre, store, baseUrl)
 
         await commandCentre.current.cootCommand({
             returnType: "status",

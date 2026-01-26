@@ -1,70 +1,75 @@
 
-import { ErrorBoundary, MoorhenReduxStore } from 'moorhen'
-import { Provider } from 'react-redux';
-import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { ErrorBoundary, MoorhenContainer} from 'moorhen'
+import { MoorhenProvider } from 'moorhen';
+//import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+//import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+/*
 import { RootLayout } from './layouts/RootLayout';
 import { PdbLayout } from './layouts/PdbLayout';
 import { AFDBLayout } from './layouts/AFDBLayout';
 import { CODLayout } from './layouts/CODLayout';
-import { TutorialLayout } from './layouts/TutorialLayout';
+//import { TutorialLayout } from './layouts/TutorialLayout';
 import { LigandLayout } from './layouts/LigandLayout';
 import { PubChemLayout } from './layouts/PubChemLayout';
 import { SmilesLayout } from './layouts/SmilesLayout';
-import { GalleryLayout } from './layouts/GalleryLayout';
-import { GallerySessionLayout } from './layouts/GallerySessionLayout';
+//import { GalleryLayout } from './layouts/GalleryLayout';
+//import { GallerySessionLayout } from './layouts/GallerySessionLayout';
+*/
 import React from 'react'
 
 export const MoorhenApp: React.FC = () => {
 
+    const urlPrefix = "/dev/MoorhenAssets"
+/*
     const router = createBrowserRouter(
         [
             {
                 path: "",
-                element: <RootLayout />,
+                element: <RootLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/",
-                element: <RootLayout />,
+                element: <RootLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/pdb/:pdbId",
-                element: <PdbLayout />,
+                element: <PdbLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/:pdbId",
-                element: <PdbLayout />,
+                element: <PdbLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/tutorial/:tutorialNumber",
-                element: <TutorialLayout />,
+                element: <TutorialLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/smiles/:smilesSearch",
-                element: <SmilesLayout />,
+                element: <SmilesLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/pubchem/:pubChemSearch",
-                element: <PubChemLayout />,
+                element: <PubChemLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/ligand/:ligandName",
-                element: <LigandLayout />,
+                element: <LigandLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/lig/:ligandName",
-                element: <LigandLayout />,
+                element: <LigandLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/monomer/:ligandName",
-                element: <LigandLayout />,
+                element: <LigandLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/afdb/:uniprotID",
-                element: <AFDBLayout />,
+                element: <AFDBLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "/codsearch/:codid",
-                element: <CODLayout />,
+                element: <CODLayout urlPrefix={urlPrefix}/>,
             },
             {
                 path: "gallery",
@@ -72,24 +77,26 @@ export const MoorhenApp: React.FC = () => {
                 children: [
                     {
                         path: "",
-                        element: <GalleryLayout />
+                        element: <GalleryLayout urlPrefix={urlPrefix}/>
                     },
                     {
                         index: true,
                         path: ":galleryId",
-                        element: <GallerySessionLayout />
+                        element: <GallerySessionLayout urlPrefix={urlPrefix}/>
                     }
                 ]
             },
         ]
     )
+            */
 
+                            //<RouterProvider router={router} />
     return <React.StrictMode>
                 <ErrorBoundary >
                     <div className="App">
-                        <Provider store={MoorhenReduxStore}>
-                            <RouterProvider router={router} />
-                        </Provider>
+                        <MoorhenProvider>
+                            <MoorhenContainer urlPrefix={urlPrefix}/>
+                        </MoorhenProvider>
                     </div>
                 </ErrorBoundary>
             </React.StrictMode>
