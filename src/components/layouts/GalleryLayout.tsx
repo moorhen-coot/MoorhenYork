@@ -4,16 +4,18 @@ import { useCallback, useState } from "react";
 import "react-photo-album/masonry.css";
 import { Box, IconButton, Typography, Modal } from "@mui/material";
 import { PlayCircleOutlined } from '@mui/icons-material';
+import { LayoutProps } from '../RouterLayouts';
 
-export const GalleryLayout: React.FC = () => {
+export const GalleryLayout: React.FC<LayoutProps> = (props) => {
 
     const [showModal, setShowModal] = useState<boolean>(false)
     const [imageIndex, setImageIndex] = useState<number>(0)
+    const rootPrefix = props.rootPrefix
 
     let imageData = [
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-cover.png",
-        sessionUrl: "/gallery/cover",
+        sessionUrl: rootPrefix+"/gallery/cover",
         originalWidth: 2214,
         originalHeight: 1720,
         onClickWidth: 221,
@@ -28,7 +30,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-1.png",
-        sessionUrl: "/gallery/1",
+        sessionUrl: rootPrefix+"/gallery/1",
         originalWidth: 4096,
         originalHeight: 2283,
         onClickWidth: 409,
@@ -47,7 +49,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-2.png",
-        sessionUrl: "/gallery/2",
+        sessionUrl: rootPrefix+"/gallery/2",
         originalWidth: 4096,
         originalHeight: 2116,
         onClickWidth: 419,
@@ -65,7 +67,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-3.png",
-        sessionUrl: "/gallery/3",
+        sessionUrl: rootPrefix+"/gallery/3",
         originalWidth: 4096,
         originalHeight: 2283,
         onClickWidth: 409,
@@ -83,7 +85,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-4.png",
-        sessionUrl: "/gallery/4",
+        sessionUrl: rootPrefix+"/gallery/4",
         originalWidth: 4096,
         originalHeight:2264,
         onClickWidth: 409,
@@ -100,7 +102,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-5.png",
-        sessionUrl: "/gallery/5",
+        sessionUrl: rootPrefix+"/gallery/5",
         originalWidth: 5096,
         originalHeight: 3264,
         onClickWidth: 409,
@@ -117,7 +119,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-6.png",
-        sessionUrl: "/gallery/6",
+        sessionUrl: rootPrefix+"/gallery/6",
         originalWidth: 536,
         originalHeight: 449,
         onClickWidth: 260,  //306
@@ -135,7 +137,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-7.png",
-        sessionUrl: "/gallery/7",
+        sessionUrl: rootPrefix+"/gallery/7",
         originalWidth: 2728,
         originalHeight: 2509,
         onClickWidth: 234,
@@ -153,7 +155,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-8.png",
-        sessionUrl: "/gallery/8",
+        sessionUrl: rootPrefix+"/gallery/8",
         originalWidth: 4096,
         originalHeight: 2959,
         onClickWidth: 290, //309
@@ -171,7 +173,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-9.png",
-        sessionUrl: "/gallery/9",
+        sessionUrl: rootPrefix+"/gallery/9",
         originalWidth: 2062, //2092
         originalHeight: 1848,//2178
         onClickWidth: 245,
@@ -190,7 +192,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-10.png",
-        sessionUrl: "/gallery/10",
+        sessionUrl: rootPrefix+"/gallery/10",
         originalWidth: 4096,
         originalHeight: 2482,
         onClickWidth: 280,
@@ -208,7 +210,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-11.png",
-        sessionUrl: "/gallery/11",
+        sessionUrl: rootPrefix+"/gallery/11",
         originalWidth: 4096, 
         originalHeight: 2630,
         onClickWidth: 359,
@@ -225,7 +227,7 @@ export const GalleryLayout: React.FC = () => {
       },
       {
         src: "https://raw.githubusercontent.com/moorhen-coot/gallery-sessions/main/images/gallery-12.png",
-        sessionUrl: "/gallery/12",
+        sessionUrl: rootPrefix+"/gallery/12",
         originalWidth: 4096,
         originalHeight: 2300,
         onClickWidth: 370,

@@ -2,6 +2,7 @@
 import { ErrorBoundary} from 'moorhen'
 import { MoorhenProvider } from 'moorhen';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { LayoutProps } from './RouterLayouts';
 import { RootLayout } from './layouts/RootLayout';
 import { PdbLayout } from './layouts/PdbLayout';
 import { AFDBLayout } from './layouts/AFDBLayout';
@@ -15,15 +16,11 @@ import { GallerySessionLayout } from './layouts/GallerySessionLayout';
 
 import React from 'react'
 
-type LayoutProps = {
-    urlPrefix?: string;
-}
-
 export const MoorhenApp: React.FC = () => {
 
-    const urlPrefix = "/dev/MoorhenAssets"
-    const layoutProps: LayoutProps = { urlPrefix:urlPrefix}
     const rootPrefix = "/dev"
+    const urlPrefix = "/dev/MoorhenAssets"
+    const layoutProps: LayoutProps = { urlPrefix:urlPrefix, rootPrefix:rootPrefix}
 
     const router = createBrowserRouter(
         [
@@ -81,7 +78,7 @@ export const MoorhenApp: React.FC = () => {
                 children: [
                     {
                         path: "",
-                        element: <GalleryLayout/>
+                        element: <GalleryLayout {...layoutProps}/>
                     },
                     {
                         index: true,
