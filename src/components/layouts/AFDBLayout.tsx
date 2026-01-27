@@ -1,11 +1,13 @@
 import { MoorhenContainer, MoorhenMolecule, addMolecule, ColourRule, getMultiColourRuleArgs } from 'moorhen'
+import { MoorhenProvider } from 'moorhen';
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const AFDBLayout: React.FC = () => {
+export const AFDBLayout: React.FC<LayoutProps> = () => {
     const dispatch = useDispatch()
     const store = useStore();
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
@@ -65,5 +67,7 @@ export const AFDBLayout: React.FC = () => {
         glRef, commandCentre
     }
 
-    return <MoorhenContainer {...collectedProps} />
+    return <MoorhenProvider>
+               <MoorhenContainer {...collectedProps} />
+           </MoorhenProvider>
 }

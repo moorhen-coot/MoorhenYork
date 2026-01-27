@@ -1,16 +1,14 @@
 //import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMap, setActiveMap } from 'moorhen'
 import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMap } from 'moorhen'
+import { MoorhenProvider } from 'moorhen';
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-type PdbLayoutProps = {
-    urlPrefix?: string;
-}
-
-export const PdbLayout: React.FC = (props: PdbLayoutProps) => {
+export const PdbLayout: React.FC<LayoutProps> = (props) => {
     const dispatch = useDispatch()
     const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
@@ -75,5 +73,7 @@ export const PdbLayout: React.FC = (props: PdbLayoutProps) => {
         glRef, commandCentre, urlPrefix
     }
 
-    return <MoorhenContainer {...collectedProps} />
+    return <MoorhenProvider>
+               <MoorhenContainer {...collectedProps} />
+           </MoorhenProvider>
 }

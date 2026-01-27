@@ -1,102 +1,102 @@
 
-import { ErrorBoundary, MoorhenContainer} from 'moorhen'
-import { MoorhenProvider } from 'moorhen';
-//import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
-//import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-/*
+import { ErrorBoundary} from 'moorhen'
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RootLayout } from './layouts/RootLayout';
 import { PdbLayout } from './layouts/PdbLayout';
 import { AFDBLayout } from './layouts/AFDBLayout';
 import { CODLayout } from './layouts/CODLayout';
-//import { TutorialLayout } from './layouts/TutorialLayout';
+import { TutorialLayout } from './layouts/TutorialLayout';
 import { LigandLayout } from './layouts/LigandLayout';
 import { PubChemLayout } from './layouts/PubChemLayout';
 import { SmilesLayout } from './layouts/SmilesLayout';
-//import { GalleryLayout } from './layouts/GalleryLayout';
+import { GalleryLayout } from './layouts/GalleryLayout';
 //import { GallerySessionLayout } from './layouts/GallerySessionLayout';
-*/
+
 import React from 'react'
 
+type LayoutProps = {
+    urlPrefix?: string;
+}
 export const MoorhenApp: React.FC = () => {
 
     const urlPrefix = "/dev/MoorhenAssets"
-/*
+    const layoutProps: LayoutProps = { urlPrefix:urlPrefix}
+    const rootPrefix = "/dev"
+
     const router = createBrowserRouter(
         [
             {
-                path: "",
-                element: <RootLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"",
+                element: <RootLayout {...layoutProps}/>,
             },
             {
-                path: "/",
-                element: <RootLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/",
+                element: <RootLayout {...layoutProps}/>,
             },
             {
-                path: "/pdb/:pdbId",
-                element: <PdbLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/pdb/:pdbId",
+                element: <PdbLayout {...layoutProps}/>,
             },
             {
-                path: "/:pdbId",
-                element: <PdbLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/:pdbId",
+                element: <PdbLayout {...layoutProps}/>,
             },
             {
-                path: "/tutorial/:tutorialNumber",
-                element: <TutorialLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/tutorial/:tutorialNumber",
+                element: <TutorialLayout {...layoutProps}/>,
             },
             {
-                path: "/smiles/:smilesSearch",
-                element: <SmilesLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/smiles/:smilesSearch",
+                element: <SmilesLayout {...layoutProps}/>,
             },
             {
-                path: "/pubchem/:pubChemSearch",
-                element: <PubChemLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/pubchem/:pubChemSearch",
+                element: <PubChemLayout {...layoutProps}/>,
             },
             {
-                path: "/ligand/:ligandName",
-                element: <LigandLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/ligand/:ligandName",
+                element: <LigandLayout {...layoutProps}/>,
             },
             {
-                path: "/lig/:ligandName",
-                element: <LigandLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/lig/:ligandName",
+                element: <LigandLayout {...layoutProps}/>,
             },
             {
-                path: "/monomer/:ligandName",
-                element: <LigandLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/monomer/:ligandName",
+                element: <LigandLayout {...layoutProps}/>,
             },
             {
-                path: "/afdb/:uniprotID",
-                element: <AFDBLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/afdb/:uniprotID",
+                element: <AFDBLayout {...layoutProps}/>,
             },
             {
-                path: "/codsearch/:codid",
-                element: <CODLayout urlPrefix={urlPrefix}/>,
+                path: rootPrefix+"/codsearch/:codid",
+                element: <CODLayout {...layoutProps}/>,
             },
             {
-                path: "gallery",
+                path: rootPrefix+"gallery",
                 element:  <Outlet />,
                 children: [
                     {
                         path: "",
-                        element: <GalleryLayout urlPrefix={urlPrefix}/>
+                        element: <GalleryLayout/>
                     },
+/*
                     {
                         index: true,
                         path: ":galleryId",
                         element: <GallerySessionLayout urlPrefix={urlPrefix}/>
                     }
+*/
                 ]
             },
         ]
     )
-            */
 
-                            //<RouterProvider router={router} />
     return <React.StrictMode>
                 <ErrorBoundary >
                     <div className="App">
-                        <MoorhenProvider>
-                            <MoorhenContainer urlPrefix={urlPrefix}/>
-                        </MoorhenProvider>
+                         <RouterProvider router={router} />
                     </div>
                 </ErrorBoundary>
             </React.StrictMode>

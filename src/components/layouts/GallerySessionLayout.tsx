@@ -1,16 +1,13 @@
-/*
 import { MoorhenContainer, MoorhenTimeCapsule } from 'moorhen'
+import { MoorhenProvider } from 'moorhen';
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, RefObject } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-type GallerySessionProps = {
-    urlPrefix?: string;
-}
-
-export const GallerySessionLayout: React.FC = (props: GallerySessionProps) => {
+export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
     const dispatch = useDispatch()
 
     const store = useStore()
@@ -19,12 +16,12 @@ export const GallerySessionLayout: React.FC = (props: GallerySessionProps) => {
     const molecules = useSelector((state: moorhen.State) => state.molecules.moleculeList)
     const maps = useSelector((state: moorhen.State) => state.maps)
 
-    const timeCapsuleRef = useRef<null | moorhen.TimeCapsule>(null)
-    const glRef = useRef<webGL.MGWebGL | null>(null)
-    const commandCentre = useRef<moorhen.CommandCentre | null>(null)
-    const moleculesRef = useRef<moorhen.Molecule[] | null>(null)
-    const mapsRef = useRef<moorhen.Map[] | null>(null)
-    const activeMapRef = useRef<moorhen.Map | null>(null)
+    const glRef = useRef<webGL.MGWebGL>(null)
+    const commandCentre = useRef<moorhen.CommandCentre>(null)
+    const moleculesRef = useRef<moorhen.Molecule[]>(null)
+    const timeCapsuleRef = useRef<moorhen.TimeCapsule>(null)
+    const mapsRef = useRef<moorhen.Map[]>(null)
+    //const activeMapRef = useRef<moorhen.Map | null>(null)
     
     const { galleryId } = useParams()
 
@@ -55,7 +52,7 @@ export const GallerySessionLayout: React.FC = (props: GallerySessionProps) => {
         const response = await fetch(url)
         if (response.ok) {
             const sessionArrayBuffer = await response.arrayBuffer()
-            await MoorhenTimeCapsule.loadSessionFromArrayBuffer(sessionArrayBuffer, monomerLibraryPath, molecules, maps, commandCentre, timeCapsuleRef, glRef, store,  dispatch)
+            await MoorhenTimeCapsule.loadSessionFromArrayBuffer(sessionArrayBuffer, monomerLibraryPath, molecules, maps, commandCentre, timeCapsuleRef as RefObject<moorhen.TimeCapsule>, glRef as RefObject<webGL.MGWebGL>, store,  dispatch)
         } else {
             console.warn(`Unable to fetch session data from ${url}`)
         }
@@ -68,9 +65,11 @@ export const GallerySessionLayout: React.FC = (props: GallerySessionProps) => {
     }, [galleryId, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef, activeMapRef, monomerLibraryPath
+        //glRef, commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef, activeMapRef, monomerLibraryPath
+        glRef, commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef,  monomerLibraryPath
     }
 
-    return <MoorhenContainer {...collectedProps} />
+    return <MoorhenProvider>
+               <MoorhenContainer {...collectedProps} />
+           </MoorhenProvider>
 }
-*/

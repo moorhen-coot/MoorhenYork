@@ -1,4 +1,6 @@
 import { MoorhenContainer, MoorhenMolecule, addMolecule } from 'moorhen'
+import { MoorhenProvider } from 'moorhen';
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { libcootApi } from "moorhen/types/libcoot"
@@ -6,11 +8,7 @@ import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
-type PubChemLayoutProps = {
-    urlPrefix?: string;
-}
-
-export const PubChemLayout: React.FC = (props: PubChemLayoutProps) => {
+export const PubChemLayout: React.FC<LayoutProps> = (props) => {
     const dispatch = useDispatch()
     const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
@@ -90,5 +88,7 @@ export const PubChemLayout: React.FC = (props: PubChemLayoutProps) => {
         glRef, commandCentre, urlPrefix
     }
 
-    return <MoorhenContainer {...collectedProps} />
+    return <MoorhenProvider>
+               <MoorhenContainer {...collectedProps} />
+           </MoorhenProvider>
 }
