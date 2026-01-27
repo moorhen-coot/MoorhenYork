@@ -1,5 +1,4 @@
 import { MoorhenContainer, MoorhenMolecule, addMolecule } from 'moorhen'
-import { MoorhenProvider } from 'moorhen';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -88,7 +87,5 @@ export const PubChemLayout: React.FC<LayoutProps> = (props) => {
         glRef, commandCentre, urlPrefix
     }
 
-    return <MoorhenProvider>
-               <MoorhenContainer {...collectedProps} />
-           </MoorhenProvider>
+    return <MoorhenContainer {...collectedProps} />
 }

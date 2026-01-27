@@ -1,5 +1,4 @@
 import { MoorhenContainer, MoorhenTimeCapsule } from 'moorhen'
-import { MoorhenProvider } from 'moorhen';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -69,7 +68,5 @@ export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
         glRef, commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef,  monomerLibraryPath
     }
 
-    return <MoorhenProvider>
-               <MoorhenContainer {...collectedProps} />
-           </MoorhenProvider>
+    return <MoorhenContainer {...collectedProps} />
 }

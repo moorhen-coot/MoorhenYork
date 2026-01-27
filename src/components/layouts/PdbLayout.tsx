@@ -1,6 +1,5 @@
 //import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMap, setActiveMap } from 'moorhen'
 import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMap } from 'moorhen'
-import { MoorhenProvider } from 'moorhen';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -73,7 +72,5 @@ export const PdbLayout: React.FC<LayoutProps> = (props) => {
         glRef, commandCentre, urlPrefix
     }
 
-    return <MoorhenProvider>
-               <MoorhenContainer {...collectedProps} />
-           </MoorhenProvider>
+    return <MoorhenContainer {...collectedProps} />
 }

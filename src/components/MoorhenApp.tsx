@@ -1,5 +1,6 @@
 
 import { ErrorBoundary} from 'moorhen'
+import { MoorhenProvider } from 'moorhen';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RootLayout } from './layouts/RootLayout';
 import { PdbLayout } from './layouts/PdbLayout';
@@ -10,13 +11,14 @@ import { LigandLayout } from './layouts/LigandLayout';
 import { PubChemLayout } from './layouts/PubChemLayout';
 import { SmilesLayout } from './layouts/SmilesLayout';
 import { GalleryLayout } from './layouts/GalleryLayout';
-//import { GallerySessionLayout } from './layouts/GallerySessionLayout';
+import { GallerySessionLayout } from './layouts/GallerySessionLayout';
 
 import React from 'react'
 
 type LayoutProps = {
     urlPrefix?: string;
 }
+
 export const MoorhenApp: React.FC = () => {
 
     const urlPrefix = "/dev/MoorhenAssets"
@@ -74,20 +76,18 @@ export const MoorhenApp: React.FC = () => {
                 element: <CODLayout {...layoutProps}/>,
             },
             {
-                path: rootPrefix+"gallery",
+                path: rootPrefix+"/gallery",
                 element:  <Outlet />,
                 children: [
                     {
                         path: "",
                         element: <GalleryLayout/>
                     },
-/*
                     {
                         index: true,
                         path: ":galleryId",
-                        element: <GallerySessionLayout urlPrefix={urlPrefix}/>
+                        element: <GallerySessionLayout {...layoutProps}/>
                     }
-*/
                 ]
             },
         ]
@@ -96,7 +96,9 @@ export const MoorhenApp: React.FC = () => {
     return <React.StrictMode>
                 <ErrorBoundary >
                     <div className="App">
+                    <MoorhenProvider>
                          <RouterProvider router={router} />
+                    </MoorhenProvider>
                     </div>
                 </ErrorBoundary>
             </React.StrictMode>

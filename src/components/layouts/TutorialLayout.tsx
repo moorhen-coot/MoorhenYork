@@ -1,6 +1,5 @@
 //import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, setActiveMap, addMapList} from 'moorhen';
 import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMapList} from 'moorhen';
-import { MoorhenProvider } from 'moorhen';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -68,7 +67,5 @@ export const TutorialLayout: React.FC<LayoutProps> = (props) => {
         glRef, commandCentre, urlPrefix
     }
 
-    return <MoorhenProvider>
-               <MoorhenContainer {...collectedProps} />
-           </MoorhenProvider>
+    return <MoorhenContainer {...collectedProps} />
 }

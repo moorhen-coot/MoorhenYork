@@ -1,5 +1,4 @@
 import { MoorhenContainer, MoorhenMolecule, addMolecule, ColourRule, getMultiColourRuleArgs } from 'moorhen'
-import { MoorhenProvider } from 'moorhen';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -67,7 +66,5 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
         glRef, commandCentre
     }
 
-    return <MoorhenProvider>
-               <MoorhenContainer {...collectedProps} />
-           </MoorhenProvider>
+    return <MoorhenContainer {...collectedProps} />
 }
