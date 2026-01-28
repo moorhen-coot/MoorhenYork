@@ -45,10 +45,8 @@ The `Header` lines set the correct HTTP headers for threaded WebAssembly in Web 
 
 The `RewriteRule` lines allow "React routing" to work, e.g. :
 
-```
-        https://moorhen.hosted.york.ac.uk/monomer/LZA
-        https://moorhen.hosted.york.ac.uk/5a3h
-        https://moorhen.hosted.york.ac.uk/pdb/5a3h
-        https://moorhen.hosted.york.ac.uk/smiles/c1ccccn1
-        https://moorhen.hosted.york.ac.uk/pubchem/aspirin
-```
+* <a href="https://moorhen.hosted.york.ac.uk/monomer/LZA" target="_blank">https://moorhen.hosted.york.ac.uk/monomer/LZA</a>
+* <a href="https://moorhen.hosted.york.ac.uk/5a3h" target="_blank">https://moorhen.hosted.york.ac.uk/5a3h</a>
+* <a href="https://moorhen.hosted.york.ac.uk/pdb/5a3h"> target="_blank"https://moorhen.hosted.york.ac.uk/pdb/5a3h</a>
+* <a href="https://moorhen.hosted.york.ac.uk/smiles/c1ccccn1"> target="_blank"https://moorhen.hosted.york.ac.uk/smiles/c1ccccn1</a>
+* <a href="https://moorhen.hosted.york.ac.uk/pubchem/aspirin" target="_blank">https://moorhen.hosted.york.ac.uk/pubchem/aspirin</a>
