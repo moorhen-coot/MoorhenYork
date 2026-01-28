@@ -1,22 +1,34 @@
 # MoorhenYork
 
+This is a small React application which is used to create an instance of the Moorhen molecular graphics program
+on a web server. This application creates a basic Moorhen at the base of your web server plus "React Router"
+urls to autoload data (see bottom of this README).
+
 ```
-npm install && mkdir -p ./public && cp -r ./node_modules/moorhen/public/* ./public/ && npm run build
+npm install
+mkdir -p ./public
+cp -r ./node_modules/moorhen/public/* ./public/
+npm run build
 ```
 
-To run the `vite` server:
+To can test the application (without running `npm run build`) by running the `vite` server:
 
 ```
 npx vite
 ```
 
-To run with Python's `HTTPServer`:
+The `npm run build` command above outputs the built application in the `dist` directory. You can test
+serving this with Python's `HTTPServer` (this will not do the React Router stuff though):
 
 ```
 cd dist; python3 ../test_scripts/SimpleCrossOriginServer.py
 ```
 
-To run on the University of York, UK Apache server, the following is required:
+To install on a production server, simply copy **contents** of the `dist` folder to the root
+of your web server. (We will present instructions on serving from non-root folder shortly).
+
+After doing this, some server configuration files may need to be changed.
+For example, to run on the University of York, UK Apache server, the following is required:
 
 ```
 RewriteEngine on
