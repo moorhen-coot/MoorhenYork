@@ -1,9 +1,11 @@
 # MoorhenYork
 
+## About
 This is a small React application which is used to create an instance of the Moorhen molecular graphics program
 on a web server. This application creates a basic Moorhen at the base of your web server plus "React Router"
 urls to autoload data (see bottom of this README).
 
+## Building
 ```
 npm install
 mkdir -p ./public
@@ -11,6 +13,7 @@ cp -r ./node_modules/moorhen/public/* ./public/
 npm run build
 ```
 
+## Testing
 To can test the application (without running `npm run build`) by running the `vite` server:
 
 ```
@@ -21,9 +24,11 @@ The `npm run build` command above outputs the built application in the `dist` di
 serving this with Python's `HTTPServer` (this will not do the React Router stuff though):
 
 ```
-cd dist; python3 ../test_scripts/SimpleCrossOriginServer.py
+cd dist
+python3 ../test_scripts/SimpleCrossOriginServer.py
 ```
 
+## Installing
 To install on a production server, simply copy **contents** of the `dist` folder to the root
 of your web server. (We will present instructions on serving from non-root folder shortly).
 
