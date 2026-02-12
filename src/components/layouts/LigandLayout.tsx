@@ -62,7 +62,7 @@ export const LigandLayout: React.FC<LayoutProps> = (props) => {
             returnType: 'status',
             command: 'get_monomer_and_position_at',
             commandArgs: [ligandName, anyMolNo,
-                ...originState.map(coord => -coord)
+                ...originState.map((coord: number[]) => -coord)
             ]
         }, true) as moorhen.WorkerResponse<number>
         
