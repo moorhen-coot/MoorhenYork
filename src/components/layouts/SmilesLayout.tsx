@@ -53,7 +53,7 @@ export const SmilesLayout: React.FC<LayoutProps> = (props) => {
             returnType: 'status',
             command: 'get_monomer_and_position_at',
             commandArgs: ["LIG", anyMolNo,
-                ...originState.map((coord: number[]) => -coord)
+                ...originState.map((coord: number) => -coord)
             ]
         }, true) as moorhen.WorkerResponse<number>
 
