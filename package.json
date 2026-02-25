@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "moorhen": "file:///Users/stuart/Moorhen-test/baby-gru/dist/moorhen-0.23.0-dev.tgz",
+    "moorhen": "file:///y/people/sjm27/Moorhen-nightly/Moorhen/baby-gru/dist/moorhen-0.23.0-dev.tgz",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-redux": "^9.2.0",
