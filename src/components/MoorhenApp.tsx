@@ -21,10 +21,11 @@ export const MoorhenApp: React.FC = () => {
 
     let rootPrefix = ""
     let urlPrefix = "/MoorhenAssets"
-    if(serverRoot!=="./"){
-        rootPrefix = serverRoot
-        urlPrefix = serverRoot+"MoorhenAssets"
+    if((serverRoot as string)!=="./"){
+        rootPrefix = (serverRoot as string).replace(/\/$/g, '')
+        urlPrefix = rootPrefix+"/MoorhenAssets"
     }
+
     const layoutProps: LayoutProps = { urlPrefix:urlPrefix, rootPrefix:rootPrefix}
 
     const router = createBrowserRouter(
