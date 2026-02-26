@@ -13,13 +13,18 @@ import { PubChemLayout } from './layouts/PubChemLayout';
 import { SmilesLayout } from './layouts/SmilesLayout';
 import { GalleryLayout } from './layouts/GalleryLayout';
 import { GallerySessionLayout } from './layouts/GallerySessionLayout';
+import { serverRoot }  from '../serverRoot';
 
 import React from 'react'
 
 export const MoorhenApp: React.FC = () => {
 
-    const rootPrefix = "/dev"
-    const urlPrefix = "/dev/MoorhenAssets"
+    let rootPrefix = ""
+    let urlPrefix = "/MoorhenAssets"
+    if(serverRoot!=="./"){
+        rootPrefix = serverRoot
+        urlPrefix = serverRoot+"MoorhenAssets"
+    }
     const layoutProps: LayoutProps = { urlPrefix:urlPrefix, rootPrefix:rootPrefix}
 
     const router = createBrowserRouter(
