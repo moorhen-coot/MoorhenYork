@@ -4,9 +4,12 @@ import crossOriginIsolation from 'vite-plugin-cross-origin-isolation'
 import wasm from "vite-plugin-wasm";
 import topLevelAwait from "vite-plugin-top-level-await";
 import checker from 'vite-plugin-checker';
+import { serverRoot } from './src/serverRoot';
+
+console.log("ROOT",serverRoot)
 
 export default defineConfig({
-  base: '/dev/',
+  base: serverRoot,
   plugins: [
       react(),
       wasm(),

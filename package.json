@@ -5,8 +5,9 @@
   "type": "module",
   "homepage": "https://moorhen.org",
   "scripts": {
+    "create-server-route": "node genserverroot.js ${SERVER_ROOT:-./}",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npm run create-server-route && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
