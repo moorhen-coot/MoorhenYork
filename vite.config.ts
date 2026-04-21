@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import legacy from '@vitejs/plugin-legacy'
 import crossOriginIsolation from 'vite-plugin-cross-origin-isolation'
 import wasm from "vite-plugin-wasm";
 import topLevelAwait from "vite-plugin-top-level-await";
@@ -20,6 +21,11 @@ export default defineConfig({
           tsconfigPath: 'tsconfig.json'
 
       }}),
+      legacy({
+          modernTargets: ['defaults'],
+          modernPolyfills: true,
+          renderLegacyChunks: false,
+      }),
       {
           name: "configure-response-headers",
           configureServer: (server) => {
