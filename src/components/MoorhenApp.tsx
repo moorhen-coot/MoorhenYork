@@ -1,6 +1,5 @@
-
-import { ErrorBoundary} from 'moorhen'
-import { MoorhenProvider } from 'moorhen';
+import { ErrorBoundary} from 'moorhen/react-lib'
+import { MoorhenProvider } from 'moorhen/react-lib';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { LayoutProps } from './RouterLayouts';
 import { RootLayout } from './layouts/RootLayout';

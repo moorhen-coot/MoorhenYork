@@ -1,5 +1,5 @@
 //import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, setActiveMap, addMapList} from 'moorhen';
-import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMapList} from 'moorhen';
+import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMapList} from 'moorhen/react-lib';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';

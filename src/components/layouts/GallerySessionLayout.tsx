@@ -1,4 +1,4 @@
-import { MoorhenContainer, MoorhenTimeCapsule } from 'moorhen'
+import { MoorhenContainer, MoorhenTimeCapsule } from 'moorhen/react-lib'
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
