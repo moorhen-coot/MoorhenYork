@@ -71,6 +71,7 @@ export const CODLayout: React.FC<LayoutProps> = (props) => {
             newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
             newMolecule.coordsFormat = 'mmcif'
             await newMolecule.fetchIfDirtyAndDraw("CBs")
+            await newMolecule.centreOn('/*/*/*/*', true, true)
             dispatch( addMolecule(newMolecule) )
         } else {
             console.warn('Error getting monomer... Missing dictionary?')
