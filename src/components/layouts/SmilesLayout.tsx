@@ -1,4 +1,4 @@
-import { MoorhenContainer, MoorhenMolecule, addMolecule } from 'moorhen/react-lib'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, useMoorhenInstance } from 'moorhen/react-lib'
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 export const SmilesLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
     const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
@@ -21,8 +22,6 @@ export const SmilesLayout: React.FC<LayoutProps> = (props) => {
     const urlPrefix = props.urlPrefix
 
     const { smilesSearch } = useParams()
-
-    const monomerLibraryPath = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
 
     const loadSmiles = async (smilesSearch: string) => {
         if (!commandCentre.current) {
@@ -41,7 +40,7 @@ export const SmilesLayout: React.FC<LayoutProps> = (props) => {
         const dictContent = smiles_to_pdbResponse.data.result.result.second
 
         const anyMolNo = -999999
-        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
 
         await commandCentre.current.cootCommand({
             returnType: "status",

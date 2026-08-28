@@ -1,4 +1,4 @@
-import { MoorhenContainer, MoorhenMolecule, addMolecule, ColourRule, getMultiColourRuleArgs } from 'moorhen/react-lib'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, ColourRule, getMultiColourRuleArgs, useMoorhenInstance } from 'moorhen/react-lib'
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 export const AFDBLayout: React.FC<LayoutProps> = () => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
     const store = useStore();
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
@@ -18,10 +19,8 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
 
     const { uniprotID } = useParams()
 
-    const monomerLibraryPath = "https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master/"
-
     const fetchMolecule = async (url: string, molName: string) => {
-        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
         newMolecule.setBackgroundColour(backgroundColor)
         newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
         try {

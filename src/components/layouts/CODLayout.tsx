@@ -1,4 +1,4 @@
-import { MoorhenContainer, MoorhenMolecule, addMolecule } from 'moorhen/react-lib'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, useMoorhenInstance } from 'moorhen/react-lib'
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 export const CODLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
     const store = useStore();
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
@@ -61,8 +62,7 @@ export const CODLayout: React.FC<LayoutProps> = (props) => {
             commandArgs: [dictContent, anyMolNo],
         }, false)
 
-        const monomerLibraryPath = "https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master/"
-        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
         const result = await newMolecule.loadToCootFromString(coordContent, codid);
         console.error(result)
 

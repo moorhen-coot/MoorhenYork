@@ -1,4 +1,4 @@
-import { MoorhenContainer, MoorhenTimeCapsule } from 'moorhen/react-lib'
+import { MoorhenContainer, MoorhenTimeCapsule, useMoorhenInstance } from 'moorhen/react-lib'
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
 
     const store = useStore()
@@ -48,6 +49,8 @@ export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
         }
 
         const url = sessionUrls[sessionId]
+        moorhenInstance.files.loadFiles(url)
+        /*
         const response = await fetch(url)
         if (response.ok) {
             const sessionArrayBuffer = await response.arrayBuffer()
@@ -55,6 +58,7 @@ export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
         } else {
             console.warn(`Unable to fetch session data from ${url}`)
         }
+        */
     }
 
     useEffect(() => {
