@@ -14,7 +14,6 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     const backgroundColor = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
 
     const { uniprotID } = useParams()
@@ -62,7 +61,7 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
     }, [uniprotID, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre
+        commandCentre
     }
 
     return <MoorhenContainer {...collectedProps} />

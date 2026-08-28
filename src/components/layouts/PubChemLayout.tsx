@@ -14,10 +14,9 @@ export const PubChemLayout: React.FC<LayoutProps> = (props) => {
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
 
-    const originState = useSelector((state: moorhen.State) => state.glRef.origin)
+    const originState = useSelector((state: moorhen.State) => state.sceneSettings.origin)
     const background_colour = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
     const urlPrefix = props.urlPrefix
 
@@ -25,7 +24,7 @@ export const PubChemLayout: React.FC<LayoutProps> = (props) => {
 
     const loadPubChem = async (pubChemSearch: string) => {
         if (!commandCentre.current) {
-            console.warn('Empty glRef or commandCentre, doing nothing...')
+            console.warn('Empty commandCentre, doing nothing...')
             return
         } else if (!pubChemSearch) {
             console.warn('Empty ligand name, doing nothing...')
@@ -83,7 +82,7 @@ export const PubChemLayout: React.FC<LayoutProps> = (props) => {
     }, [pubChemSearch, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />

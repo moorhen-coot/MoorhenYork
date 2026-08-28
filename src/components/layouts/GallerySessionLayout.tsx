@@ -16,7 +16,6 @@ export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
     const molecules = useSelector((state: moorhen.State) => state.molecules.moleculeList)
     const maps = useSelector((state: moorhen.State) => state.maps)
 
-    const glRef = useRef<webGL.MGWebGL>(null)
     const commandCentre = useRef<moorhen.CommandCentre>(null)
     const moleculesRef = useRef<moorhen.Molecule[]>(null)
     const timeCapsuleRef = useRef<moorhen.TimeCapsule>(null)
@@ -69,7 +68,7 @@ export const GallerySessionLayout: React.FC<LayoutProps> = (props) => {
 
     const collectedProps = {
         //glRef, commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef, activeMapRef, monomerLibraryPath
-        glRef, commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef,  monomerLibraryPath
+        commandCentre, urlPrefix, timeCapsuleRef, moleculesRef, mapsRef,  monomerLibraryPath
     }
 
     return <MoorhenContainer {...collectedProps} />

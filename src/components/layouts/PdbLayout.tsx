@@ -15,7 +15,6 @@ export const PdbLayout: React.FC<LayoutProps> = (props) => {
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     const backgroundColor = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
     
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
     const urlPrefix = props.urlPrefix
 
@@ -69,7 +68,7 @@ export const PdbLayout: React.FC<LayoutProps> = (props) => {
     }, [pdbId, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />

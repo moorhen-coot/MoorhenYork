@@ -14,7 +14,6 @@ export const CODLayout: React.FC<LayoutProps> = (props) => {
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
     const urlPrefix = props.urlPrefix
 
@@ -87,7 +86,7 @@ export const CODLayout: React.FC<LayoutProps> = (props) => {
     }, [codid, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />
