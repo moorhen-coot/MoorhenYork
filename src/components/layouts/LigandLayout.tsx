@@ -21,7 +21,7 @@ export const LigandLayout: React.FC<LayoutProps> = (props) => {
 
     const { ligandName } = useParams()
 
-    const baseUrl = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
+    const monomerLibraryPath = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
     const pdbeBaseUrl = 'https://www.ebi.ac.uk/pdbe/static/files/pdbechem_v2'
 
     const loadLigand = async (ligandName: string) => {
@@ -34,9 +34,9 @@ export const LigandLayout: React.FC<LayoutProps> = (props) => {
         }
         
         const anyMolNo = -999999
-        const newMolecule = new MoorhenMolecule(commandCentre, store, baseUrl)
+        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
 
-        const url = `${baseUrl}/${ligandName.toLowerCase()[0]}/${ligandName.toUpperCase()}.cif`
+        const url = `${monomerLibraryPath}/${ligandName.toLowerCase()[0]}/${ligandName.toUpperCase()}.cif`
         const response = await fetch(url);
         let dictContent: string
         if (response.ok) {

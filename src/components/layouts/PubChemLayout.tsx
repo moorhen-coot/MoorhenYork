@@ -22,7 +22,7 @@ export const PubChemLayout: React.FC<LayoutProps> = (props) => {
 
     const { pubChemSearch } = useParams()
 
-    const baseUrl = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
+    const monomerLibraryPath = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
 
     const loadPubChem = async (pubChemSearch: string) => {
         if (!commandCentre.current) {
@@ -48,7 +48,7 @@ export const PubChemLayout: React.FC<LayoutProps> = (props) => {
         const dictContent = smiles_to_pdbResponse.data.result.result.second
 
         const anyMolNo = -999999
-        const newMolecule = new MoorhenMolecule(commandCentre, store, baseUrl)
+        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
 
         await commandCentre.current.cootCommand({
             returnType: "status",

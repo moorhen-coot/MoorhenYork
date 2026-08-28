@@ -61,7 +61,8 @@ export const CODLayout: React.FC<LayoutProps> = (props) => {
             commandArgs: [dictContent, anyMolNo],
         }, false)
 
-        const newMolecule = new MoorhenMolecule(commandCentre, store, baseUrl)
+        const monomerLibraryPath = "https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master/"
+        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
         const result = await newMolecule.loadToCootFromString(coordContent, codid);
         console.error(result)
 
