@@ -1,5 +1,5 @@
 //import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, setActiveMap, addMapList} from 'moorhen';
-import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMapList} from 'moorhen/react-lib';
+import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMapList, useMoorhenInstance } from 'moorhen/react-lib';
 import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
@@ -8,13 +8,13 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 
 export const TutorialLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
     const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     const backgroundColor = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
     const urlPrefix = props.urlPrefix
     
@@ -34,7 +34,7 @@ export const TutorialLayout: React.FC<LayoutProps> = (props) => {
             console.warn('Invalid tutorial number, doing nothing...')
             return
         }
-        const newMolecule = new MoorhenMolecule(commandCentre, store, monomerLibraryPath)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
         newMolecule.setBackgroundColour(backgroundColor)
         newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
         const newMap = new MoorhenMap(commandCentre, store)
@@ -64,7 +64,7 @@ export const TutorialLayout: React.FC<LayoutProps> = (props) => {
     }, [tutorialNumber, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />

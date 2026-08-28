@@ -23,7 +23,7 @@ export const PdbLayout: React.FC<LayoutProps> = (props) => {
     const baseUrl = 'https://www.ebi.ac.uk/pdbe/entry-files'
 
     const fetchMolecule = async (url: string, molName: string) => {
-        const newMolecule = new MoorhenMolecule(useMoorhenInstance)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
         newMolecule.setBackgroundColour(backgroundColor)
         newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
         try {
