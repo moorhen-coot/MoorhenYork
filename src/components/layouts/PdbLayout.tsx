@@ -41,24 +41,12 @@ export const PdbLayout: React.FC<LayoutProps> = (props) => {
         }
     }
 
-    const fetchMap = async (url: string, mapName: string, isDiffMap: boolean = false) => {
-        const newMap = new MoorhenMap(commandCentre, store)
-        try {
-            await newMap.loadToCootFromMapURL(url, mapName, isDiffMap)
-            if (newMap.molNo === -1) throw new Error("Cannot read the fetched map...")
-            dispatch(addMap(newMap))
-            //dispatch(setActiveMap(newMap))
-        } catch (err) {
-            console.warn(err)
-            console.warn(`Cannot fetch map from ${url}`)
-        }
-        return newMap
-    }
-
     const loadData = async (pdbCode: string) => {
         await fetchMolecule(`${baseUrl}/download/${pdbCode}.cif`, pdbCode)
-        await fetchMap(`${baseUrl}/${pdbCode}_diff.ccp4`, `${pdbCode}-FoFc`, true)
-        await fetchMap(`${baseUrl}/${pdbCode}.ccp4`, `${pdbCode}-2FoFc`)
+        const diffMapUrl = `${baseUrl}/${pdbCode}_diff.ccp4`
+        const mapUrl = `${baseUrl}/${pdbCode}.ccp4`
+        //The coords should probably be done the same.
+        moorhenInstance.files.loadFiles([mapUrl,diffMapUrl])
     }
 
     useEffect(() => {
