@@ -350,6 +350,7 @@ export const GalleryLayout: React.FC<LayoutProps> = (props) => {
               <img src={reorderedimageData[imageIndex].src}
                style={{width: reorderedimageData[imageIndex].onClickWidth*2, height: reorderedimageData[imageIndex].onClickHeight*2}}/>
               <IconButton onClick={handleSessionLoad}
+              className="button_gallery"
                 style={{
                   position: 'absolute',
                   top: 460,
