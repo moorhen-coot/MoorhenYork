@@ -1,24 +1,26 @@
-import { MoorhenContainer, MoorhenMolecule, MoorhenReduxStore, addMolecule } from 'moorhen'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, useMoorhenInstance } from 'moorhen/react-lib'
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { libcootApi } from "moorhen/types/libcoot"
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const CODLayout: React.FC = () => {
+export const CODLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
+    const store = useStore();
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
+    const urlPrefix = props.urlPrefix
 
     const background_colour = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
     const { codid } = useParams()
 
-    const urlPrefix = "/baby-gru"
     //const baseUrl = 'https://www.crystallography.net/cod'
     const baseUrl = '/cod'
 
@@ -59,7 +61,7 @@ export const CODLayout: React.FC = () => {
             commandArgs: [dictContent, anyMolNo],
         }, false)
 
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, baseUrl)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
         const result = await newMolecule.loadToCootFromString(coordContent, codid);
         console.error(result)
 
@@ -69,6 +71,7 @@ export const CODLayout: React.FC = () => {
             newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
             newMolecule.coordsFormat = 'mmcif'
             await newMolecule.fetchIfDirtyAndDraw("CBs")
+            await newMolecule.centreOn('/*/*/*/*', true, true)
             dispatch( addMolecule(newMolecule) )
         } else {
             console.warn('Error getting monomer... Missing dictionary?')
@@ -83,7 +86,7 @@ export const CODLayout: React.FC = () => {
     }, [codid, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />

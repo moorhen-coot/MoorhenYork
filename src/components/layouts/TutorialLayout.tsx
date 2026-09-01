@@ -1,22 +1,25 @@
-import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, setActiveMap, addMapList, MoorhenReduxStore } from 'moorhen';
+//import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, setActiveMap, addMapList} from 'moorhen';
+import { MoorhenContainer, MoorhenMolecule, MoorhenMap, addMolecule, addMapList, useMoorhenInstance } from 'moorhen/react-lib';
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const TutorialLayout: React.FC = () => {
+export const TutorialLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
+    const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     const backgroundColor = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
+    const urlPrefix = props.urlPrefix
     
     const { tutorialNumber } = useParams()
 
-    const urlPrefix = "/baby-gru"
     const monomerLibraryPath = "https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master/"
     const baseUrl = 'https://raw.githubusercontent.com/moorhen-coot/moorhen/master/baby-gru/public/baby-gru/tutorials'
 
@@ -31,11 +34,11 @@ export const TutorialLayout: React.FC = () => {
             console.warn('Invalid tutorial number, doing nothing...')
             return
         }
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, monomerLibraryPath)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
         newMolecule.setBackgroundColour(backgroundColor)
         newMolecule.defaultBondOptions.smoothness = defaultBondSmoothness
-        const newMap = new MoorhenMap(commandCentre, glRef, MoorhenReduxStore)
-        const newDiffMap = new MoorhenMap(commandCentre, glRef, MoorhenReduxStore)
+        const newMap = new MoorhenMap(commandCentre, store)
+        const newDiffMap = new MoorhenMap(commandCentre, store)
         await newMolecule.loadToCootFromURL(`${baseUrl}/moorhen-tutorial-structure-number-${tutorialNumber}.pdb`, `mol-${tutorialNumber}`)
         await newMolecule.fetchIfDirtyAndDraw('CBs')
         await newMolecule.centreOn('/*/*/*/*', false)
@@ -51,7 +54,7 @@ export const TutorialLayout: React.FC = () => {
         )
         dispatch( addMolecule(newMolecule) )
         dispatch( addMapList([newMap, newDiffMap]) )
-        dispatch( setActiveMap(newMap) )
+        //dispatch( setActiveMap(newMap) )
     }
 
     useEffect(() => {
@@ -61,7 +64,7 @@ export const TutorialLayout: React.FC = () => {
     }, [tutorialNumber, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />

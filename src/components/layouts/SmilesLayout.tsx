@@ -1,26 +1,26 @@
-import { MoorhenContainer, MoorhenMolecule, MoorhenReduxStore, addMolecule } from 'moorhen'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, useMoorhenInstance } from 'moorhen/react-lib'
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { libcootApi } from "moorhen/types/libcoot"
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const SmilesLayout: React.FC = () => {
+export const SmilesLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
+    const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
 
-    const originState = useSelector((state: moorhen.State) => state.glRef.origin)
+    const originState = useSelector((state: moorhen.State) => state.sceneSettings.origin)
     const background_colour = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
+    const urlPrefix = props.urlPrefix
 
     const { smilesSearch } = useParams()
-
-    const urlPrefix = "/baby-gru"
-    const baseUrl = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
 
     const loadSmiles = async (smilesSearch: string) => {
         if (!commandCentre.current) {
@@ -39,7 +39,7 @@ export const SmilesLayout: React.FC = () => {
         const dictContent = smiles_to_pdbResponse.data.result.result.second
 
         const anyMolNo = -999999
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, baseUrl)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
 
         await commandCentre.current.cootCommand({
             returnType: "status",
@@ -51,7 +51,7 @@ export const SmilesLayout: React.FC = () => {
             returnType: 'status',
             command: 'get_monomer_and_position_at',
             commandArgs: ["LIG", anyMolNo,
-                ...originState.map(coord => -coord)
+                ...originState.map((coord: number) => -coord)
             ]
         }, true) as moorhen.WorkerResponse<number>
 
@@ -75,7 +75,7 @@ export const SmilesLayout: React.FC = () => {
     }, [smilesSearch, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />

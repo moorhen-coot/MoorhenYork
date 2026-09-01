@@ -1,7 +1,7 @@
-
-import { ErrorBoundary, MoorhenReduxStore } from 'moorhen'
-import { Provider } from 'react-redux';
+import { ErrorBoundary} from 'moorhen/react-lib'
+import { MoorhenProvider } from 'moorhen/react-lib';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { LayoutProps } from './RouterLayouts';
 import { RootLayout } from './layouts/RootLayout';
 import { PdbLayout } from './layouts/PdbLayout';
 import { AFDBLayout } from './layouts/AFDBLayout';
@@ -12,72 +12,83 @@ import { PubChemLayout } from './layouts/PubChemLayout';
 import { SmilesLayout } from './layouts/SmilesLayout';
 import { GalleryLayout } from './layouts/GalleryLayout';
 import { GallerySessionLayout } from './layouts/GallerySessionLayout';
+import { serverRoot }  from '../serverRoot';
+
 import React from 'react'
 
 export const MoorhenApp: React.FC = () => {
 
+    let rootPrefix = ""
+    let urlPrefix = "/MoorhenAssets"
+    if((serverRoot as string)!=="./"){
+        rootPrefix = (serverRoot as string).replace(/\/$/g, '')
+        urlPrefix = rootPrefix+"/MoorhenAssets"
+    }
+
+    const layoutProps: LayoutProps = { urlPrefix:urlPrefix, rootPrefix:rootPrefix}
+
     const router = createBrowserRouter(
         [
             {
-                path: "",
-                element: <RootLayout />,
+                path: rootPrefix+"",
+                element: <RootLayout {...layoutProps}/>,
             },
             {
-                path: "/",
-                element: <RootLayout />,
+                path: rootPrefix+"/",
+                element: <RootLayout {...layoutProps}/>,
             },
             {
-                path: "/pdb/:pdbId",
-                element: <PdbLayout />,
+                path: rootPrefix+"/pdb/:pdbId",
+                element: <PdbLayout {...layoutProps}/>,
             },
             {
-                path: "/:pdbId",
-                element: <PdbLayout />,
+                path: rootPrefix+"/:pdbId",
+                element: <PdbLayout {...layoutProps}/>,
             },
             {
-                path: "/tutorial/:tutorialNumber",
-                element: <TutorialLayout />,
+                path: rootPrefix+"/tutorial/:tutorialNumber",
+                element: <TutorialLayout {...layoutProps}/>,
             },
             {
-                path: "/smiles/:smilesSearch",
-                element: <SmilesLayout />,
+                path: rootPrefix+"/smiles/:smilesSearch",
+                element: <SmilesLayout {...layoutProps}/>,
             },
             {
-                path: "/pubchem/:pubChemSearch",
-                element: <PubChemLayout />,
+                path: rootPrefix+"/pubchem/:pubChemSearch",
+                element: <PubChemLayout {...layoutProps}/>,
             },
             {
-                path: "/ligand/:ligandName",
-                element: <LigandLayout />,
+                path: rootPrefix+"/ligand/:ligandName",
+                element: <LigandLayout {...layoutProps}/>,
             },
             {
-                path: "/lig/:ligandName",
-                element: <LigandLayout />,
+                path: rootPrefix+"/lig/:ligandName",
+                element: <LigandLayout {...layoutProps}/>,
             },
             {
-                path: "/monomer/:ligandName",
-                element: <LigandLayout />,
+                path: rootPrefix+"/monomer/:ligandName",
+                element: <LigandLayout {...layoutProps}/>,
             },
             {
-                path: "/afdb/:uniprotID",
-                element: <AFDBLayout />,
+                path: rootPrefix+"/afdb/:uniprotID",
+                element: <AFDBLayout {...layoutProps}/>,
             },
             {
-                path: "/codsearch/:codid",
-                element: <CODLayout />,
+                path: rootPrefix+"/codsearch/:codid",
+                element: <CODLayout {...layoutProps}/>,
             },
             {
-                path: "gallery",
+                path: rootPrefix+"/gallery",
                 element:  <Outlet />,
                 children: [
                     {
                         path: "",
-                        element: <GalleryLayout />
+                        element: <GalleryLayout {...layoutProps}/>
                     },
                     {
                         index: true,
                         path: ":galleryId",
-                        element: <GallerySessionLayout />
+                        element: <GallerySessionLayout {...layoutProps}/>
                     }
                 ]
             },
@@ -87,9 +98,9 @@ export const MoorhenApp: React.FC = () => {
     return <React.StrictMode>
                 <ErrorBoundary >
                     <div className="App">
-                        <Provider store={MoorhenReduxStore}>
-                            <RouterProvider router={router} />
-                        </Provider>
+                    <MoorhenProvider>
+                         <RouterProvider router={router} />
+                    </MoorhenProvider>
                     </div>
                 </ErrorBoundary>
             </React.StrictMode>

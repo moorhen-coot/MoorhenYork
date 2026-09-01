@@ -1,30 +1,32 @@
-import { MoorhenContainer, MoorhenMolecule, MoorhenReduxStore, addMolecule } from 'moorhen'
+import { MoorhenContainer, MoorhenMolecule, addMolecule, useMoorhenInstance } from 'moorhen/react-lib'
+import { LayoutProps } from '../RouterLayouts';
 import { webGL } from 'moorhen/types/mgWebGL';
 import { moorhen } from 'moorhen/types/moorhen';
 import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-export const LigandLayout: React.FC = () => {
+export const LigandLayout: React.FC<LayoutProps> = (props) => {
+    const moorhenInstance = useMoorhenInstance()
     const dispatch = useDispatch()
+    const store = useStore()
     const cootInitialized = useSelector((state: moorhen.State) => state.generalStates.cootInitialized)
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     
-    const originState = useSelector((state: moorhen.State) => state.glRef.origin)
+    const originState = useSelector((state: moorhen.State) => state.sceneSettings.origin)
     const background_colour = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const glRef = useRef<webGL.MGWebGL | null>(null)
     const commandCentre = useRef<moorhen.CommandCentre | null>(null)
+    const urlPrefix = props.urlPrefix
 
     const { ligandName } = useParams()
 
-    const urlPrefix = "/baby-gru"
-    const baseUrl = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
+    const monomerLibraryPath = 'https://raw.githubusercontent.com/MRC-LMB-ComputationalStructuralBiology/monomers/master'
     const pdbeBaseUrl = 'https://www.ebi.ac.uk/pdbe/static/files/pdbechem_v2'
 
     const loadLigand = async (ligandName: string) => {
         if (!commandCentre.current) {
-            console.warn('Empty glRef or commandCentre, doing nothing...')
+            console.warn('Empty commandCentre, doing nothing...')
             return
         } else if (!ligandName) {
             console.warn('Empty ligand name, doing nothing...')
@@ -32,9 +34,9 @@ export const LigandLayout: React.FC = () => {
         }
         
         const anyMolNo = -999999
-        const newMolecule = new MoorhenMolecule(commandCentre, glRef, MoorhenReduxStore, baseUrl)
+        const newMolecule = new MoorhenMolecule(moorhenInstance)
 
-        const url = `${baseUrl}/${ligandName.toLowerCase()[0]}/${ligandName.toUpperCase()}.cif`
+        const url = `${monomerLibraryPath}/${ligandName.toLowerCase()[0]}/${ligandName.toUpperCase()}.cif`
         const response = await fetch(url);
         let dictContent: string
         if (response.ok) {
@@ -60,7 +62,7 @@ export const LigandLayout: React.FC = () => {
             returnType: 'status',
             command: 'get_monomer_and_position_at',
             commandArgs: [ligandName, anyMolNo,
-                ...originState.map(coord => -coord)
+                ...originState.map((coord: number) => -coord)
             ]
         }, true) as moorhen.WorkerResponse<number>
         
@@ -84,7 +86,7 @@ export const LigandLayout: React.FC = () => {
     }, [ligandName, cootInitialized])
 
     const collectedProps = {
-        glRef, commandCentre, urlPrefix
+        commandCentre, urlPrefix
     }
 
     return <MoorhenContainer {...collectedProps} />
