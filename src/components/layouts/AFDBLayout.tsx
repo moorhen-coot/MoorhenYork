@@ -14,8 +14,6 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
     const defaultBondSmoothness = useSelector((state: moorhen.State) => state.sceneSettings.defaultBondSmoothness)
     const backgroundColor = useSelector((state: moorhen.State) => state.sceneSettings.backgroundColor)
 
-    const commandCentre = useRef<moorhen.CommandCentre | null>(null)
-
     const { uniprotID } = useParams()
 
     const fetchMolecule = async (url: string, molName: string) => {
@@ -28,7 +26,7 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
                 throw new Error("Cannot read the fetched molecule...")
             }
             const newColourRule = new ColourRule(
-                'af2-plddt', "/*/*/*/*", "#ffffff", commandCentre, true
+                'af2-plddt', "/*/*/*/*", "#ffffff", moorhenInstance.commandCentre, true
             )
             newColourRule.setLabel("PLDDT")
             const ruleArgs = await getMultiColourRuleArgs(newMolecule, 'af2-plddt')
@@ -47,11 +45,31 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
         }
     }
 
-    const loadData = async (uniprotID: string) => {
+    const loadData = async (uniprotID_in: string) => {
 
-        const uniprotIDUpper: string = uniprotID.toUpperCase()
-        const coordUrl = `https://alphafold.ebi.ac.uk/files/AF-${uniprotIDUpper}-F1-model_v4.pdb`
-        await fetchMolecule(coordUrl, uniprotIDUpper)
+        const uniprotID: string = uniprotID_in.toUpperCase()
+
+        const infoUrl = `https://alphafold.ebi.ac.uk/api/prediction/${uniprotID}`;
+
+        const infoResponse = await fetch(infoUrl);
+        if (infoResponse.ok) {
+            const infoJson = await infoResponse.json();
+            //A search might get more than 1 hit.
+            //By default we just pick the first and then look for exact match in loop below.
+            let bestEntry: number = -1;
+            if (infoJson.length > 0) {
+                bestEntry = 0;
+                for (const modelEntry of infoJson) {
+                    if (modelEntry.entryId === `AF-${uniprotID}-F1`) {
+                        break;
+                    }
+                    bestEntry++;
+                }
+                if (bestEntry > infoJson.length) bestEntry = 0;
+                const coordUrl = infoJson[bestEntry].pdbUrl;
+                await fetchMolecule(coordUrl,uniprotID)
+            }
+        }
     }
 
     useEffect(() => {
@@ -61,7 +79,6 @@ export const AFDBLayout: React.FC<LayoutProps> = () => {
     }, [uniprotID, cootInitialized])
 
     const collectedProps = {
-        commandCentre
     }
 
     return <MoorhenContainer {...collectedProps} />
